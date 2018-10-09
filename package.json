@@ -1,0 +1,26 @@
+{
+  "name": "didthekingswin.com",
+  "version": "1.0.0",
+  "engines": {
+    "node": "6.3.1"
+  },
+  "description": "minimalistic site that will tell the user if the Anaheim Ducks won their last game and more information about that game if the user wants it.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GarrettEstrin/didthekingswin.com.git"
+  },
+  "author": "Garrett Estrin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GarrettEstrin/didthekingswin.com/issues"
+  },
+  "homepage": "https://github.com/GarrettEstrin/didthekingswin.com#readme",
+  "dependencies": {
+    "express": "^4.15.2",
+    "path": "^0.12.7"
+  }
+}

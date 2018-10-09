@@ -1,0 +1,43 @@
+/* Custom CSS by Garrett Estrin | Garrett.Estrin.com */
+html, body {
+  height: 100%;
+  width: 99%;
+  font-family: KingsFont;
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+  display: table;
+}
+
+.content {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 300px;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  font-family: KingsFont;
+  position: relative;
+  bottom: 100px;
+  cursor: pointer;
+}
+
+.details {
+  position: relative;
+  bottom: 35%;
+  text-align: center;
+  font-size: 50px;
+}
+
+#logo {
+  width: 50%;
+  top: 100px;
+  position: relative;
+}
+
+@font-face {
+    font-family: kingsFont;
+    src: url(vibrocentric.ttf);
+}
