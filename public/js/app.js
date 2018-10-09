@@ -48,8 +48,7 @@ function didKingsWin(kingsScore, opponentScore){
   } else {
     win = false
   }
-  buildDom(win)
-  // setTimeout(function(){buildDom(win)}, 2000);
+  buildDom(win);
 }
 
 function buildDom(win){
