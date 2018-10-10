@@ -8,7 +8,7 @@ var win;
 var $content = $('.content')[0];
 var $logo = $('#logo')
 $(document).ready(function() {
-  $.getJSON("https://spreadsheets.google.com/feeds/list/1hKrvATyh88jv_a1DTZ0jVdcR3b5A6MjPdjZgXJ81SGM/od6/public/values?alt=json", function(data) {
+  $.getJSON("https://spreadsheets.google.com/feeds/list/1HftBBQw7_9Dvwr1LGddy5ySGVWvELzAZQ9G7ovip8XA/od6/public/values?alt=json", function(data) {
     gameinfo = data.feed.entry[data.feed.entry.length-1].gsx$gameinfo.$t
     //getTypeOfEnd(gameinfo)
     getScores(gameinfo)
@@ -55,9 +55,10 @@ function buildDom(win){
   // Fade out logo
   $logo.fadeOut(2000, function(){
     if(win === true){
-      $content.textContent = "YES"
+      $content.innerHTML = "YES<p class='sub-content'>Unfortunately, but they still suck.</p>"
     } else {
-      $content.textContent = "NO"
+      // $content.textContent = "NO"
+      $content.innerHTML = "NO<p class='sub-content'>Because they suck.</p>";
     }
     $('body').click(function(){
       showDetails();
