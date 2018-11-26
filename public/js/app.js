@@ -1,6 +1,6 @@
 // Custom JavaScript by Garrett Estrin | GarrettEstrin.com
 var teamID = 26;
-var favicon = 'https://didthekingswin.herokuapp.com/favicon.ico';
+var favicon = 'http://didthekingswin.com/public/favicon.ico';
 
 var gameinfo;
 var gameDetails;
