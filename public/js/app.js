@@ -1,64 +1,53 @@
 // Custom JavaScript by Garrett Estrin | GarrettEstrin.com
+var teamID = 26;
+var favicon = 'https://didthekingswin.herokuapp.com/favicon.ico';
 
 var gameinfo;
-var gameEnd;
-var kingsScore;
+var gameDetails;
+var ducksScore;
 var opponentScore;
 var win;
 var $content = $('.content')[0];
 var $logo = $('#logo')
 $(document).ready(function() {
-  $.getJSON("https://spreadsheets.google.com/feeds/list/1HftBBQw7_9Dvwr1LGddy5ySGVWvELzAZQ9G7ovip8XA/od6/public/values?alt=json", function(data) {
-    gameinfo = data.feed.entry[data.feed.entry.length-1].gsx$gameinfo.$t
-    //getTypeOfEnd(gameinfo)
-    getScores(gameinfo)
+  $.getJSON(`https://statsapi.web.nhl.com/api/v1/teams/${teamID}?expand=team.schedule.previous`, function(data) {
+    if(TeamIsHomeTeam(data)){
+      var teamScore = data.teams[0].previousGameSchedule.dates[0].games[0].teams.home.score;
+      var oppScore = data.teams[0].previousGameSchedule.dates[0].games[0].teams.away.score;
+    } else {
+      var oppScore = data.teams[0].previousGameSchedule.dates[0].games[0].teams.home.score;
+      var teamScore = data.teams[0].previousGameSchedule.dates[0].games[0].teams.away.score;
+    }
+    gameDetails = getGameDetails(data);
+    didTeamWin(teamScore, oppScore);
   })
   setFavicon();
 })
 
-function getTypeOfEnd(gameinfo){
-  gameinfo = gameinfo.split(' ')
-  if(gameinfo[0] == 'Final/OT:') {
-    gameEnd = 'Overtime';
-  } else if (gameinfo[0] == 'Final/SO:') {
-    gameEnd = "Shoot Out"
-  } else if(gameinfo[0] == 'Final:') {
-    gameEnd = "Regulation"
+function TeamIsHomeTeam(data){
+  if(data.teams[0].previousGameSchedule.dates[0].games[0].teams.away.team.id == teamID){
+    return false;
   } else {
-    gameEnd = "unknown";
+    return true;
   }
 }
 
-function getScores(gameinfo){
-  gameinfo = gameinfo.toLowerCase().replace("final score ", "").split(' ')
-  if(gameinfo[0] == "la"){
-    kingsScore = gameinfo[1];
-    opponentScore = gameinfo[gameinfo.length - 1];
-  } else {
-    kingsScore = gameinfo[gameinfo.length - 1];
-    opponentScore = gameinfo[1];
-  }
-  didKingsWin(kingsScore,opponentScore)
-}
-
-function didKingsWin(kingsScore, opponentScore){
-  console.log("la", kingsScore, "opp", opponentScore);
-  if(kingsScore>opponentScore){
+function didTeamWin(teamScore, oppScore){
+  if(teamScore>oppScore){
     win = true
   } else {
     win = false
   }
-  buildDom(win);
+  buildDom(win)
 }
 
 function buildDom(win){
   // Fade out logo
   $logo.fadeOut(2000, function(){
     if(win === true){
-      $content.innerHTML = "YES<p class='sub-content'>Unfortunately, but they still suck.</p>"
+      $content.textContent = "YES"
     } else {
-      // $content.textContent = "NO"
-      $content.innerHTML = "NO<p class='sub-content'>Because they suck.</p>";
+      $content.textContent = "NO"
     }
     $('body').click(function(){
       showDetails();
@@ -66,8 +55,14 @@ function buildDom(win){
   })
 }
 
+function getGameDetails(data){
+  let gameInfo = data.teams[0].previousGameSchedule.dates[0].games[0];
+  let { away, home } = gameInfo.teams;
+  return `Final Score ${home.team.name} ${home.score} - ${away.team.name} ${away.score}`;
+}
+
 function showDetails(){
-  $('.details')[0].textContent = gameinfo;
+  $('.details')[0].textContent = gameDetails;
 }
 
 function setFavicon() {
@@ -75,6 +70,7 @@ function setFavicon() {
     var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
     link.type = 'image/x-icon';
     link.rel = 'shortcut icon';
-    link.href = 'https://didthekingswin.herokuapp.com/favicon.ico';
+    link.href = favicon;
     document.getElementsByTagName('head')[0].appendChild(link);
 }
+
